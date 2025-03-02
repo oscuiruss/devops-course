@@ -8,7 +8,6 @@ services:
       - ENV=development
       - DATABASE_URL=postgresql+psycopg2://user:password@db/mydb
       - FLASK_APP=urlshort
-      - PATH="/home/appuser/.local/bin:$PATH"
     ports:
       - "5000:5000"
     depends_on:

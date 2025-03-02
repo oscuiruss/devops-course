@@ -5,10 +5,14 @@ USER appuser
 
 WORKDIR /app
 
+USER root
+RUN pip install pipenv
+
+USER appuser
+
 COPY Pipfile Pipfile.lock /app/
 
-RUN pip install pipenv \
-    && pipenv lock \
+RUN pipenv lock \
     && pipenv install --python /usr/local/bin/python3.12 --deploy \
     && find /usr/local/lib/python3.12/site-packages -name '*.pyc' -delete \
     && find /usr/local/lib/python3.12/site-packages -name '__pycache__' -delete
