@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}404 - URL Shortener{%endblock%}
+{% block pagetitle %}🌍 URL Shortener - Error 404{%endblock%}
+
+{%block main%}
+
+            <h2>Page not found :(</h2>
+
+            <p>
+                We couldn't find that page.
+                <br><br>
+                Click to go to the
+                <a href="{{url_for("urlshort.home")}}"> homepage </a>
+            </p>
+
+{% endblock %}

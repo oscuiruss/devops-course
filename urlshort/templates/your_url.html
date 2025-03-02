@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}URL Shortener{%endblock%}
+{% block pagetitle %}🌍 URL Shortener{%endblock%}
+
+{%block main%}
+
+            <h2>URL Shortened</h2>
+
+            <p>
+                Your URL has been shortened to:
+                <br><br>
+                <a href="{{ url_for("urlshort.redirector", code=code) }}">{{ request.url_root }}{{ code }}</a>
+                <br><br>
+                Click to go to the
+                <a href="{{url_for("urlshort.home")}}"> homepage </a>
+            </p>
+
+{% endblock %}
+
