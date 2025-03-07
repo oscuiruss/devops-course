@@ -1,0 +1,10 @@
+FROM petclinic/system AS production
+
+COPY --from=petclinic/build /app/build/libs/spring-petclinic-*.jar ./libs/spring-petclinic.jar
+COPY --from=petclinic/build /app/build/resources ./resources
+
+RUN adduser -D -g 'nonroot' nonroot && chown -R nonroot:nonroot /usr/lib/jvm/java-17-openjdk /app/
+
+USER nonroot
+
+CMD ["java", "-jar", "/app/libs/spring-petclinic.jar"]
