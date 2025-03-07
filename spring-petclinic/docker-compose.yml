@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:13-alpine
+    expose:
+      - 5432
+    environment:
+      - POSTGRES_PASSWORD=secret_pass
+      - POSTGRES_USER=secret_user
+      - POSTGRES_DB=petclinic
+    volumes:
+      - petclinic_db_data:/var/lib/postgresql/data
+  
+  petclinic:
+    build:
+      context: .
+      target: production
+    ports:
+      - 8080:8080
+    environment:
+      - POSTGRES_PASS=secret_pass
+      - POSTGRES_USER=secret_user
+      - POSTGRES_URL=jdbc:postgresql://db:5432/petclinic
+      - SPRING_FLYWAY_ENABLED=true
+      - database=postgres
+    depends_on:
+      - db
+
+volumes:
+  petclinic_db_data:
