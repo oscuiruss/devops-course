@@ -13,7 +13,7 @@ services:
   
   petclinic:
     build:
-      context: .
+      context: ./.
       dockerfile: Dockerfile.production
     ports:
       - 8080:8080
