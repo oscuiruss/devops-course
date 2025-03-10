@@ -5,7 +5,7 @@ RUN apk add --no-cache openjdk17
 
 WORKDIR /app
 
-COPY spring-petclinic/build.gradle settings.gradle gradlew ./
+COPY spring-petclinic/build.gradle spring-petclinic/settings.gradle spring-petclinic/gradlew ./
 COPY spring-petclinic/gradle gradle
 COPY spring-petclinic/src ./src
 
