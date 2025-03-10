@@ -12,7 +12,9 @@ services:
       - petclinic_db_data:/var/lib/postgresql/data
   
   petclinic:
-    image: petclinic/production
+    build:
+      context: .
+      dockerfile: Dockerfile.production
     ports:
       - 8080:8080
     environment:
