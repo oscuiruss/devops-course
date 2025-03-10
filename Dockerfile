@@ -5,9 +5,9 @@ RUN apk add --no-cache openjdk17
 
 WORKDIR /app
 
-COPY build.gradle settings.gradle gradlew ./
-COPY gradle gradle
-COPY src ./src
+COPY spring-petclinic/build.gradle settings.gradle gradlew ./
+COPY spring-petclinic/gradle gradle
+COPY spring-petclinic/src ./src
 
 RUN sed -i 's/\r$//' gradlew && \
     chmod +x gradlew && \
