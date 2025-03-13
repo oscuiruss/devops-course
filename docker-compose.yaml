@@ -1,0 +1,78 @@
+version: "3.8"
+
+services:
+  backend_db:
+    image: mysql:8
+    container_name: mysql_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: app_db
+      MYSQL_USER: app_user
+      MYSQL_PASSWORD: app_password
+    expose:
+      - 3306
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - internal
+
+  backend:
+    build:
+      context: ./springboot-backend/
+      dockerfile: Dockerfile
+      target: production
+    container_name: backend
+    restart: always
+    depends_on:
+      backend_db:
+        condition: service_started
+    environment:
+      JDBC_URL: jdbc:mysql://backend_db:3306/app_db
+      DB_USER: app_user
+      DB_PASSWORD: app_password
+    expose:
+      - 8080
+    networks:
+      - internal
+
+  frontend:
+    build:
+      context: ./react-frontend/
+      dockerfile: Dockerfile
+      target: production
+      args:
+        REACT_APP_API_HOST: http://localhost:8080
+    container_name: frontend
+    restart: always
+    depends_on:
+      backend:
+        condition: service_started
+    environment:
+      - FRONT_PORT=3000
+    expose:
+      - 3000
+    networks:
+      - internal
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: nginx_proxy
+    restart: always
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      frontend:
+        condition: service_started
+    networks:
+      - internal
+
+volumes:
+  mysql_data:
+
+networks:
+  internal:
